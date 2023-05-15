@@ -1,6 +1,5 @@
 from django.shortcuts import render
-
-# Create your views here.
+from django.http import HttpRequest, HttpResponse, Http404
 
 posts = [
     {
@@ -46,19 +45,22 @@ posts = [
 ]
 
 
-def index(request):
+def index(request: HttpRequest) -> HttpResponse:
     template = 'blog/index.html'
-    context = {'posts_list': reversed(posts)}
+    context = {'posts_list': posts}
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request: HttpRequest, id: int) -> HttpResponse:
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    if id in range(0, len(posts)):
+        context = {'post': posts[id]}
+    else:
+        raise Http404("Упс, этот пост еще не написан :(")
     return render(request, template, context)
 
 
-def category_posts(request, category_slug):
+def category_posts(request: HttpRequest, category_slug: str) -> HttpResponse:
     template = 'blog/category.html'
     context = {'category': category_slug}
     return render(request, template, context)
