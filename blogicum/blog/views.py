@@ -53,9 +53,9 @@ def index(request: HttpRequest) -> HttpResponse:
 
 def post_detail(request: HttpRequest, id: int) -> HttpResponse:
     template = 'blog/detail.html'
-    if id in range(0, len(posts)):
+    try:
         context = {'post': posts[id]}
-    else:
+    except IndexError:
         raise Http404("Упс, этот пост еще не написан :(")
     return render(request, template, context)
 

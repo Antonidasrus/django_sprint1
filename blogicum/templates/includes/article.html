@@ -1,6 +1,6 @@
 {% load static %}
 {% with request.resolver_match.view_name as view_name %}
-<article>
+  <article>
     <ul>
       <li>
         Место: {{ post.location }}              
@@ -19,7 +19,7 @@
       <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
       {% endif %}
       {% if view_name == 'blog:post_detail' %}
-        {{ post.text }}</p>
+        {{ post.text|linebreaks }}</p>
       {% endif %}
   </article>
-  {% endwith %}
+{% endwith %}
